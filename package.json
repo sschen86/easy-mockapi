@@ -1,0 +1,23 @@
+{
+  "name": "easy-mockapi",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "https://github.com/sschen86/easy-mockapi.git",
+  "author": "sschen86 <sschen86@163.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "axios": "^0.19.0"
+  },
+  "devDependencies": {
+    "@smartx/eslint-config-tentative": "^1.2.1",
+    "@smartx/adapter": "^1.0.2",
+    "ijest": "^1.0.2",
+    "fly-utils": "^0.0.1"
+  },
+  "jest": {
+    "testURL": "http://localhost:4444"
+  }
+}
