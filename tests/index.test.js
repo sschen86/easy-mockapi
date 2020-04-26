@@ -4,7 +4,7 @@ const querystring = require('querystring')
 
 ijest({
     context: {
-        ema: require('../lib/'),
+        ema: require('../src/').default,
         adapter: require('@smartx/adapter'),
         ...require('./httpOption'),
         ...require('fly-utils'),

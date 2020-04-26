@@ -1,22 +1,36 @@
 {
-  "name": "easy-mockapi",
-  "version": "0.1.0",
-  "main": "index.js",
-  "repository": "https://github.com/sschen86/easy-mockapi.git",
+  "name": "easy-mockapi2",
+  "version": "0.1.2",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "author": "sschen86 <sschen86@163.com>",
   "license": "MIT",
   "scripts": {
+    "dev": "nodemon --exec babel-node ./example/main ",
+    "dev2": "rollup -c ./rollup.config.dev.js -w",
+    "build": "rm -rf dist/* && rollup -c ./rollup.config.build.js",
     "test": "jest"
+  },
+  "devDependencies": {
+    "@smartx/adapter": "^1.0.3",
+    "fly-utils": "^0.0.1",
+    "node-lib-mods": "^0.0.3"
   },
   "dependencies": {
     "axios": "^0.19.0"
   },
-  "devDependencies": {
-    "@smartx/eslint-config-tentative": "^1.2.1",
-    "@smartx/adapter": "^1.0.2",
-    "ijest": "^1.0.2",
-    "fly-utils": "^0.0.1"
-  },
+  "keywords": [
+    "api",
+    "http",
+    "ajax"
+  ],
+  "repository": "https://github.com/sschen86/easy-mockapi.git",
+  "files": [
+    "dist/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "jest": {
     "testURL": "http://localhost:4444"
   }

@@ -1,8 +1,9 @@
-const axios = require('axios')
-const { defaults, globals, shares } = require('./configs')
+
+import axios from 'axios'
+import { defaults, globals, shares } from './configs'
 const acceptConfigKeys = Object.keys(shares.axios).concat(Object.keys(shares.ema))
 
-module.exports = apiFactory
+export default apiFactory
 
 apiFactory.defaults = defaults
 
@@ -277,7 +278,7 @@ class EasyMockapi {
             .filter(key => key in shares.axios)
             .reduce((axiosConfig, key) => (axiosConfig[key] = config[key], axiosConfig), {})
 
-        if (config.method === 'get') {
+        if (/^(GET)$/i.test(config.method)) {
             axiosConfig.params = data
         } else {
             axiosConfig.data = data

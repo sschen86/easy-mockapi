@@ -8,7 +8,7 @@ const AXIOS_GLOBAL = {
 
 const AXIOS_SHARE = {
     url: '',
-    method: 'get',
+    method: 'GET',
     timeout: null,
     headers: {},
 }
@@ -21,21 +21,20 @@ const EMA_SHARE = {
     mockData: null, // mock响应数据，仅响应体
 }
 
-module.exports = {
-    defaults: {
-        ...AXIOS_GLOBAL,
-        ...EMA_GLOBAL,
-        headers: {
-            ...AXIOS_GLOBAL.headers,
-            ...EMA_GLOBAL.headers,
-        },
+export const defaults = {
+    ...AXIOS_GLOBAL,
+    ...EMA_GLOBAL,
+    headers: {
+        ...AXIOS_GLOBAL.headers,
+        ...EMA_GLOBAL.headers,
     },
-    globals: {
-        axios: AXIOS_GLOBAL,
-        ema: EMA_GLOBAL,
-    },
-    shares: {
-        axios: AXIOS_SHARE,
-        ema: EMA_SHARE,
-    },
+}
+
+export const globals = {
+    axios: AXIOS_GLOBAL,
+    ema: EMA_GLOBAL,
+}
+export const shares = {
+    axios: AXIOS_SHARE,
+    ema: EMA_SHARE,
 }
