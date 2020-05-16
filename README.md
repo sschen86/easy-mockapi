@@ -25,8 +25,8 @@
 ```js
 // promise模式
 $api.getData({ id:1 })
-    .then((data, res) => {
-        // data包含返回的数据，res包含完整的数据，比如请求头
+    .then((data) => {
+        // data包含返回的数据
         // 处理数据
     })
     .catch(err => {
@@ -34,12 +34,11 @@ $api.getData({ id:1 })
     })
 
 // callback模式
-$api.getData({ id:1 }, (data, err, res) => {
+$api.getData({ id:1 }, (data, err) => {
     if(err){
         // 错误处理
     }
     // data
-    // res 
 })
 ```
 
@@ -77,11 +76,11 @@ configs.getData = {
 #### 组件安装配置
 
 ```
-npm install easy-mockapi -S
+npm install easy-mockapi2 -S
 ```
 
 ```js
-import ema from 'easy-mockapi'
+import ema from 'easy-mockapi2'
 
 const $api = ema({
     baseURL: '', // 基础路径
@@ -117,14 +116,14 @@ const $api = ema({
 ```js
 const { object } = require('fly-utils')
 const adapter = require('@smartx/adapter')
-const dpp = require('dpp')
+const ema = require('easy-mockapi2')
 const request = ema({
-    apis: {
+    configs: {
         // 接口配置项
     },
     baseURL: '',
     timeout: 2000,
-    customConfigs: {
+    props: {
         reqa (value, valueType) { // 请求参数适配器
             if (valueType === 'function') {
                 return value
