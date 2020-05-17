@@ -23,7 +23,7 @@ export default {
         }),
         json(),
         buble({
-            objectAssign: 'Object.assgin',
+            objectAssign: 'Object.assign',
         }),
         // terser(),
         serve({ // 使用开发服务插件

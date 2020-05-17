@@ -36,7 +36,7 @@ export default {
         }),
         json(),
         buble({
-            objectAssign: 'Object.assgin',
+            objectAssign: 'Object.assign',
         }),
         terser(),
     ],

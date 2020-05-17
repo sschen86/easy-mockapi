@@ -1,6 +1,6 @@
 {
   "name": "easy-mockapi2",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "author": "sschen86 <sschen86@163.com>",
