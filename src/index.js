@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+import { compile } from 'path-to-regexp'
 import { defaults, globals, shares } from './configs'
 const acceptConfigKeys = Object.keys(shares.axios).concat(Object.keys(shares.ema))
 
@@ -376,15 +377,27 @@ class EasyMockapi {
     }
 
     _convertRESTful (config) {
-        const { url, data } = config
-        if (!/\{\w+\}/.test(url)) {
-            return
+        const { data, url } = config
+
+        const urlSplits = url.split('?')
+        let baseUrl = urlSplits.shift()
+        const params = urlSplits.join('?')
+
+        // /api/${id}
+        if (/\{\w+\}/.test(baseUrl)) {
+            baseUrl = baseUrl.replace(/\{(\w+)\}/g, (match, key) => {
+                if (key in data) {
+                    return data[key]
+                }
+                return match
+            })
         }
-        config.url = url.replace(/\{(\w+)\}/g, (match, key) => {
-            if (key in data) {
-                return data[key]
-            }
-            return match
-        })
+
+        // /api/:id
+        if (/:\w+/.test(baseUrl)) {
+            baseUrl = compile(baseUrl, { encode: encodeURIComponent })(data)
+        }
+
+        config.url = baseUrl + (params ? `?${params}` : '')
     }
 }
