@@ -98,7 +98,7 @@ module.exports = function ({ ema, http200, http999 }, { tests, test, assert }) {
             return Promise.all([ api1.test(), api2.test() ])
         })
 
-        test('globalConfig.customConfigs', () => {
+        test('globalConfig.props', () => {
             const getter = (value, valueType, sourceType) => {
                 if (Array.isArray(value)) {
                     return
@@ -119,6 +119,8 @@ module.exports = function ({ ema, http200, http999 }, { tests, test, assert }) {
                     }
                 }
             }
+
+
             const api = ema(http200({
                 props: {
                     a: true,

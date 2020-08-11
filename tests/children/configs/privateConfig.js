@@ -67,5 +67,20 @@ module.exports = function ({ ema, http200, http999 }, { tests, test, assert }) {
                 },
             })
         })
+
+        test('privateConfig.logger', () => {
+            const api = ema(http200({
+                config: {
+                    logger: false,
+                },
+                response (resp, { logger }) {
+                    assert.isBe(logger, true)
+                },
+            }))
+
+            return api.test(null, {
+                logger: true,
+            })
+        })
     })
 }

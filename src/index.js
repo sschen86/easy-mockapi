@@ -130,8 +130,13 @@ class EasyMockapi {
                 if (!allConfigs[key]) {
                     return
                 }
-
-                return (...args) => this._request(allConfigs[key], ...args)
+                try {
+                    return (...args) => this._request(allConfigs[key], ...args)
+                } catch (error) {
+                    return new Promise((resolve, reject) => {
+                        reject(error)
+                    })
+                }
             },
         })
     }
@@ -191,7 +196,9 @@ class EasyMockapi {
     }
 
     _createConfig (shareConfig, privateConfig) {
-        const config = {}
+        const config = {
+            logger: this._logger,
+        }
         // 加入axios默认配置项
         for (const key in shares.axios) {
             if (shares.axios[key] != null) {
@@ -300,7 +307,7 @@ class EasyMockapi {
                             responseObject.data = this._getNewValue(responseObject.data, this._handles.success(responseObject.data, config))
                         }
 
-                        if (this._envIsDevelopment && this._logger) {
+                        if (this._envIsDevelopment && config.logger) {
                             console.warn('=== ema.response ===\n', { responseObject, config })
                         }
                         resolve(responseObject.data)
@@ -310,7 +317,7 @@ class EasyMockapi {
                             error = this._getNewValue(error, this._handles.failure(error, config))
                         }
 
-                        if (this._envIsDevelopment && this._logger) {
+                        if (this._envIsDevelopment && config.logger) {
                             console.warn('=== ema.error ===\n', { error, config })
                         }
                         reject(error)
@@ -326,6 +333,21 @@ class EasyMockapi {
     _tryAddProp (config, key, value, sourceType) {
         const valueType = typeof value
         const prop = this._props[key]
+
+        // props = {
+        //     True: true,  // 原值拷入配置项
+        //     Types: [Boolean, String, Number], // 插入符合集合内类型的配置项
+        //     setting: {
+        //         types: [Boolean, String, Number], // 带默认值的配置项
+        //         defaultValue: ''
+        //     },
+        //     getter: (value, valueType, sourceType){ // 经过处理后返回配置项
+        //         if(valueType === 'string'){
+        //             return 111
+        //         }
+        //         return
+        //     }
+        // }
 
         if (!prop) {
             return

@@ -99,5 +99,26 @@ module.exports = function ({ ema, http200, http000, http999 }, { tests, test, as
 
             return api.test()
         })
+
+        test('shareConfig.logger', () => {
+            const api1 = ema(http200({
+                response ({ data }, { logger }) {
+                    assert.isBe(logger, true)
+                },
+                config: {
+                    logger: true,
+                },
+            }))
+            const api2 = ema(http200({
+                response ({ data }, { logger }) {
+                    assert.isBe(logger, false)
+                },
+                config: {
+
+                },
+            }))
+
+            return Promise.all([ api1.test(), api2.test() ])
+        })
     })
 }
