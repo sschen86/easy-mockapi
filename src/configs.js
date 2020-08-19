@@ -11,6 +11,7 @@ const AXIOS_SHARE = {
     method: 'GET',
     timeout: null,
     headers: {},
+    cancelToken: null,
 }
 
 const EMA_GLOBAL = {}

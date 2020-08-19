@@ -3,7 +3,7 @@ import axios from 'axios'
 import { compile } from 'path-to-regexp'
 import { defaults, globals, shares } from './configs'
 const acceptConfigKeys = Object.keys(shares.axios).concat(Object.keys(shares.ema))
-
+const CancelToken = axios.CancelToken
 export default apiFactory
 
 apiFactory.defaults = defaults
@@ -130,12 +130,12 @@ class EasyMockapi {
                 if (!allConfigs[key]) {
                     return
                 }
-                try {
-                    return (...args) => this._request(allConfigs[key], ...args)
-                } catch (error) {
-                    return new Promise((resolve, reject) => {
-                        reject(error)
-                    })
+                return (...args) => {
+                    try {
+                        return this._request(allConfigs[key], ...args)
+                    } catch (error) {
+                        return Promise.reject(error)
+                    }
                 }
             },
         })
@@ -222,6 +222,12 @@ class EasyMockapi {
 
         // 加入私有配置项
         for (const key in privateConfig) {
+            if (key === 'abort') {
+                const source = CancelToken.source()
+                config.cancelToken = source.token
+                privateConfig.abort(source)
+                continue
+            }
             if (acceptConfigKeys.includes(key)) {
                 config[key] = privateConfig[key]
             } else {
@@ -268,12 +274,8 @@ class EasyMockapi {
             }
             return this._onResponse(asyncResponseObject, config)
         } catch (error) {
-            return new Promise((resolve, reject) => {
-                reject(error)
-            })
+            return Promise.reject(error)
         }
-
-
         function isPromise (data) {
             return typeof data === 'object' && typeof data.then === 'function'
         }
