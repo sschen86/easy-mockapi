@@ -93,7 +93,7 @@ module.exports = function ({ ema, http200, http999 }, { tests, test, assert }) {
                     assert.isObject(error)
                     assert.isObject(config)
                     assert.isBe(error.message, 'xxx')
-                    return new Error('xyz')
+                    throw new Error('xyz')
                 },
             }))
 
@@ -102,6 +102,7 @@ module.exports = function ({ ema, http200, http999 }, { tests, test, assert }) {
                 failure (error, config) {
                     assert.isObject(error)
                     assert.isObject(config)
+                    throw error
                 },
             }))
 

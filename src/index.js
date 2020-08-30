@@ -315,14 +315,20 @@ class EasyMockapi {
                         resolve(responseObject.data)
                     })
                     .catch(error => {
-                        if (this._handles.failure) {
-                            error = this._getNewValue(error, this._handles.failure(error, config))
+                        try {
+                            if (this._handles.failure) {
+                                this._handles.failure(error, config)
+                                resolve()
+                            } else {
+                                reject(error)
+                            }
+                        } catch (error) {
+                            reject(error)
+                        } finally {
+                            if (this._envIsDevelopment && config.logger) {
+                                console.warn('=== ema.error ===\n', { error, config })
+                            }
                         }
-
-                        if (this._envIsDevelopment && config.logger) {
-                            console.warn('=== ema.error ===\n', { error, config })
-                        }
-                        reject(error)
                     })
             }, config.delay || 0)
         })

@@ -24,9 +24,7 @@ module.exports = function ({ ema, http200, http999 }, { tests, test, assert }) {
             }, 30)
 
             return Promise.all([
-                api1.test(sendData, privateConfig).catch(error => {
-                    assert.isBe(error.message, errorMessage)
-                }),
+                api1.test(sendData, privateConfig),
             ])
         })
     })
